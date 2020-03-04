@@ -4,6 +4,9 @@
 #include "GameEngine.h"
 #include <sstream>
 #include <filesystem>
+#include <string>
+#include <string_view>
+
 
 GameState_Menu::GameState_Menu(GameEngine & game)
     : GameState(game)
@@ -18,12 +21,20 @@ void GameState_Menu::init(const std::string & menuConfig)
     size_t num = 1;
     for(auto& p: std::filesystem::directory_iterator("maps"))
     {
+        std::string name = p.path().string();
+
+        // skip the zip file we have in there
+        if (name.size() >= 4 && name.substr(name.size() - 4) == ".zip")
+        {
+            continue;
+        }
+
         std::stringstream ss;
-        ss << ((num < 10) ? " " : "") << (num) << ") " << p.path().string();
+        ss << ((num < 10) ? " " : "") << (num) << ") " << name;
         num += 1;
 
         m_menuStrings.push_back(ss.str());
-        m_levelPaths.push_back(p.path().string());
+        m_levelPaths.push_back(name);
     }
         
     m_menuText.setFont(Assets::Instance().getFont("Consolas"));
