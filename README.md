@@ -18,4 +18,4 @@
 
 Installation instructions and GUI controls are available on the [StarDraft Wiki](https://github.com/davechurchill/stardraft/wiki)
 
-p.s. There was a program about 20 years ago called StarDraft for SC map editing. This is not that!
+p.s. There was a program about 20 years ago called StarDraft for SC map editing. This is not that program. As far as I can tell that program has not been available since its original release, and I did not know it existed before naming this project.
