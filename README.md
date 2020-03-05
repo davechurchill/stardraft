@@ -17,5 +17,3 @@
 * Cross-platform C++17/SFML code that will compile and run in Windows, Linux, or Mac OSX
 
 Installation instructions and GUI controls are available on the [StarDraft Wiki](https://github.com/davechurchill/stardraft/wiki)
-
-Disclaimer: There was a program about 20 years ago called StarDraft for SC map editing. This is not that program. As far as I can tell that program has not been available for 19 years, and I did not know it existed before naming this project.
