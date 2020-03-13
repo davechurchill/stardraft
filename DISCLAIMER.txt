@@ -1,0 +1,1 @@
+There was a program about 20 years ago called StarDraft for SC map editing. This is not that program. As far as I can tell that program has not been available for 19 years, and I did not know it existed before naming this project.

@@ -17,18 +17,20 @@
     <ClCompile Include="..\src\GameState_Map.cpp" />
     <ClCompile Include="..\src\GameState_Menu.cpp" />
     <ClCompile Include="..\src\main.cpp" />
-    <ClCompile Include="..\src\VectorField.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Assets.h" />
+    <ClInclude Include="..\src\BaseBorderFinder.hpp" />
     <ClInclude Include="..\src\GameEngine.h" />
     <ClInclude Include="..\src\GameState.h" />
     <ClInclude Include="..\src\GameState_Map.h" />
     <ClInclude Include="..\src\GameState_Menu.h" />
-    <ClInclude Include="..\src\Grid.hpp" />
-    <ClInclude Include="..\src\StarcraftMap.hpp" />
+    <ClInclude Include="..\src\Grid2D.hpp" />
+    <ClInclude Include="..\src\StarDraft.h" />
+    <ClInclude Include="..\src\StarDraftMap.hpp" />
+    <ClInclude Include="..\src\Timer.hpp" />
     <ClInclude Include="..\src\Vec2.hpp" />
-    <ClInclude Include="..\src\VectorField.h" />
+    <ClInclude Include="..\src\DistanceMap.hpp" />
     <ClInclude Include="..\src\WorldView.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

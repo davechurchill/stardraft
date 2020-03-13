@@ -3,65 +3,68 @@
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\Assets.cpp">
-      <Filter>engine</Filter>
+      <Filter>ui</Filter>
     </ClCompile>
     <ClCompile Include="..\src\GameEngine.cpp">
-      <Filter>engine</Filter>
+      <Filter>ui</Filter>
     </ClCompile>
     <ClCompile Include="..\src\GameState.cpp">
-      <Filter>engine</Filter>
+      <Filter>ui</Filter>
     </ClCompile>
     <ClCompile Include="..\src\GameState_Map.cpp">
-      <Filter>gui</Filter>
+      <Filter>ui</Filter>
     </ClCompile>
     <ClCompile Include="..\src\GameState_Menu.cpp">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\VectorField.cpp">
-      <Filter>algorithms</Filter>
+      <Filter>ui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Assets.h">
-      <Filter>engine</Filter>
+      <Filter>ui</Filter>
     </ClInclude>
     <ClInclude Include="..\src\GameEngine.h">
-      <Filter>engine</Filter>
+      <Filter>ui</Filter>
     </ClInclude>
     <ClInclude Include="..\src\GameState.h">
-      <Filter>engine</Filter>
+      <Filter>ui</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Vec2.hpp">
-      <Filter>engine</Filter>
+      <Filter>ui</Filter>
     </ClInclude>
     <ClInclude Include="..\src\WorldView.hpp">
-      <Filter>engine</Filter>
+      <Filter>ui</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Grid.hpp">
-      <Filter>engine</Filter>
+    <ClInclude Include="..\src\Timer.hpp">
+      <Filter>ui</Filter>
     </ClInclude>
     <ClInclude Include="..\src\GameState_Map.h">
-      <Filter>gui</Filter>
+      <Filter>ui</Filter>
     </ClInclude>
     <ClInclude Include="..\src\GameState_Menu.h">
-      <Filter>gui</Filter>
+      <Filter>ui</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\StarcraftMap.hpp">
-      <Filter>engine</Filter>
+    <ClInclude Include="..\src\StarDraftMap.hpp">
+      <Filter>stardraft</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\VectorField.h">
-      <Filter>algorithms</Filter>
+    <ClInclude Include="..\src\DistanceMap.hpp">
+      <Filter>stardraft</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\BaseBorderFinder.hpp">
+      <Filter>stardraft</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\StarDraft.h">
+      <Filter>stardraft</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Grid2D.hpp">
+      <Filter>stardraft</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="engine">
-      <UniqueIdentifier>{15c27b81-2e23-4db7-9b31-c271b05d7ca1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="gui">
-      <UniqueIdentifier>{e6405375-fc0b-41c2-b260-7a1a61b6a5e8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="algorithms">
+    <Filter Include="stardraft">
       <UniqueIdentifier>{d0451f6f-2bbc-47a2-93db-f3802b69712a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui">
+      <UniqueIdentifier>{15c27b81-2e23-4db7-9b31-c271b05d7ca1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

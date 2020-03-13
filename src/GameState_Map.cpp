@@ -1,7 +1,7 @@
 #include "GameState_Map.h"
 #include "GameEngine.h"
 #include "WorldView.hpp"
-#include "StarcraftMap.hpp"
+#include "StarDraftMap.hpp"
 
 #include <fstream>
 #include <iostream>
@@ -13,7 +13,7 @@ GameState_Map::GameState_Map(GameEngine& game, const std::string & mapFile)
     : GameState(game)
     , m_mapFile(mapFile)
 {
-    m_map = StarcraftMap(mapFile);
+    m_map = StarDraftMap(mapFile);
 
     m_view.setWindowSize(Vec2(m_game.window().getSize().x, m_game.window().getSize().y));
 
@@ -27,6 +27,8 @@ GameState_Map::GameState_Map(GameEngine& game, const std::string & mapFile)
     m_text.setCharacterSize(10);
 
     setMapVertexArray();
+
+    m_BaseBorderFinder.computeBases(m_map);
 }
 
 void GameState_Map::init()
@@ -95,7 +97,7 @@ void GameState_Map::sUserInput()
 
                 if (gridX != m_pgx || gridY != m_pgy)
                 {
-                    m_field.compute(&m_map, gridX, gridY);
+                    m_field.compute(m_map, gridX, gridY);
                     m_pgx = gridX; 
                     m_pgy = gridY;
                 }
@@ -156,7 +158,7 @@ void GameState_Map::sUserInput()
 
                 if (gridX != m_pgx || gridY != m_pgy)
                 {
-                    m_field.compute(&m_map, gridX, gridY);
+                    m_field.compute(m_map, gridX, gridY);
                     m_pgx = gridX; 
                     m_pgy = gridY;
                 }
@@ -175,10 +177,11 @@ void GameState_Map::setMapVertexArray()
         { 'B', sf::Color(127, 127, 127) },
         { 'W', sf::Color(200, 200, 20) },
         { 'U', sf::Color(0, 0, 0) },    
-        { 'D', sf::Color(90, 90, 90) },
+        { 'D', sf::Color(40, 40, 120) },
         { 'M', sf::Color(0, 220, 220) },
         { 'G', sf::Color(20, 200, 20) }
     };
+    
 
     // draw the map tiles
     for (size_t x = 0; x < m_map.width(); x++)
@@ -274,6 +277,37 @@ void GameState_Map::sRender()
     for (int y = 0; m_drawGrid && y <= (int)m_map.height(); y++)
     {
         drawLine(0, y*m_tileSize, m_map.width() * m_tileSize, y*m_tileSize, gridColor);
+    }
+
+    // draw base finder stuff
+    const Grid2D<int> & resourceDist = m_BaseBorderFinder.getResourceDist();
+    for (size_t x=0; false && x<resourceDist.width(); x++)
+    {
+        for (size_t y=0; y<resourceDist.height(); y++)
+        {
+            if (resourceDist.get(x, y) == -1) { continue; }
+
+            tile.setFillColor(sf::Color(255, 0, 255, 50));
+            tile.setPosition((float)x * m_tileSize, (float)y * m_tileSize);
+            //m_game.window().draw(tile);
+
+            //int cluster = m_BaseBorderFinder.getClusterLabels().get(x,y);
+            //m_text.setCharacterSize(12);
+            //m_text.setString(std::to_string(cluster));
+            //m_text.setPosition({(float)x*m_tileSize + 8, (float)y*m_tileSize + 8});
+            //m_game.window().draw(m_text);
+        }
+    }
+
+    sf::RectangleShape borderRect;
+    borderRect.setOutlineColor(sf::Color::White);
+    borderRect.setOutlineThickness(8);
+    borderRect.setFillColor(sf::Color(0, 0, 0, 0));
+    for (auto & border : m_BaseBorderFinder.getBaseBorders())
+    {
+        borderRect.setPosition((float)m_tileSize * border.left, (float)m_tileSize * border.top);
+        borderRect.setSize({(float)(border.right - border.left + 1)*m_tileSize, (float)(border.bottom - border.top + 1)*m_tileSize});
+        m_game.window().draw(borderRect);
     }
 
     int textSize = 24;

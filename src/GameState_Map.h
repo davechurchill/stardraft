@@ -2,8 +2,9 @@
 
 #include "GameState.h"
 #include "WorldView.hpp"
-#include "StarcraftMap.hpp"
-#include "VectorField.h"
+#include "StarDraftMap.hpp"
+#include "DistanceMap.hpp"
+#include "BaseBorderFinder.hpp"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
@@ -15,23 +16,23 @@ class GameState_Map : public GameState
     sf::Font m_font;             
     sf::Text m_text;
 
-    int  m_tileSize         = 32;
-    bool m_drawGrid         = true;
-    bool m_drawWalkTiles    = true;
-    bool m_drawBuildTiles   = true;
-    bool m_drawField        = true;
-    bool m_drawDistance     = true;
-    bool m_leftMouseDown    = false;
-
-    int m_pgx = -1;
-    int m_pgy = -1;
+    int  m_tileSize         = 32;       // size of tiles (keep 32)
+    bool m_drawGrid         = true;     // draw the grid lines
+    bool m_drawWalkTiles    = true;     // draw the walk tiles
+    bool m_drawBuildTiles   = true;     // draw the build tiles
+    bool m_drawField        = true;     // draw the distance map values?
+    bool m_drawDistance     = true;     // draw the distance map (t) directions (f)
+    bool m_leftMouseDown    = false;    // is the left mouse button down
+    int m_pgx               = -1;       // previous goal x
+    int m_pgy               = -1;       // previous goal y
 
     sf::VertexArray     m_buildTileArray;
     sf::VertexArray     m_walkTileArray;
 
     const std::string   m_mapFile;
-    StarcraftMap        m_map;            
-    VectorField         m_field;
+    StarDraftMap        m_map;            
+    DistanceMap         m_field;
+    BaseBorderFinder    m_BaseBorderFinder;
 
     Vec2                m_drag = { -1, -1 };
     Vec2                m_mouseScreen;
