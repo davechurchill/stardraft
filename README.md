@@ -17,4 +17,3 @@
 * Cross-platform C++17/SFML code that will compile and run in Windows, Linux, or Mac OSX
 
 Installation instructions and GUI controls are available on the [StarDraft Wiki](https://github.com/davechurchill/stardraft/wiki)
-
