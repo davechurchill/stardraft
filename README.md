@@ -2,7 +2,7 @@
 
     Draft: definition - "A preliminary sketch, outline, or version"
     
-**Demo Video: https://streamable.com/dlm83**
+**Demo Video: https://www.youtube.com/watch?v=nRREpkt8XCo**
 
 ***StarDraft*** is a small, efficient C++ library intended to make the following tasks as simple, fast, and enjoyable as possible:
 * Visualizing existing Starcraft maps with a fluid, intuitive interface
