@@ -144,4 +144,9 @@ public:
     { 
         return m_map ? m_map->height() : 0; 
     }
+
+    inline const std::vector<Tile> & getClosestTiles() const
+    {
+        return m_stack;
+    }
 };

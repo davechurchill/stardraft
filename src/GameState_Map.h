@@ -4,7 +4,7 @@
 #include "WorldView.hpp"
 #include "StarDraftMap.hpp"
 #include "DistanceMap.hpp"
-#include "BaseBorderFinder.hpp"
+#include "BaseFinder.hpp"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
@@ -32,7 +32,7 @@ class GameState_Map : public GameState
     const std::string   m_mapFile;
     StarDraftMap        m_map;            
     DistanceMap         m_field;
-    BaseBorderFinder    m_BaseBorderFinder;
+    BaseFinder          m_baseFinder;
 
     Vec2                m_drag = { -1, -1 };
     Vec2                m_mouseScreen;

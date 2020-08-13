@@ -2,4 +2,4 @@
 
 #include "StarDraftMap.hpp"
 #include "DistanceMap.hpp"
-#include "BaseBorderFinder.hpp"
+#include "ResourceBorderFinder.hpp"

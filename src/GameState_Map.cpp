@@ -28,7 +28,7 @@ GameState_Map::GameState_Map(GameEngine& game, const std::string & mapFile)
 
     setMapVertexArray();
 
-    m_BaseBorderFinder.computeBases(m_map);
+    m_baseFinder.computeBases(m_map);
 }
 
 void GameState_Map::init()
@@ -280,30 +280,52 @@ void GameState_Map::sRender()
     }
 
     // draw base finder stuff
-    const Grid2D<int> & resourceDist = m_BaseBorderFinder.getResourceDist();
-    for (size_t x=0; false && x<resourceDist.width(); x++)
+    const Grid2D<int> & resourceDist = m_baseFinder.getResourceDist();
+    for (size_t x=0; x<resourceDist.width(); x++)
     {
         for (size_t y=0; y<resourceDist.height(); y++)
         {
             if (resourceDist.get(x, y) == -1) { continue; }
 
-            tile.setFillColor(sf::Color(255, 0, 255, 50));
-            tile.setPosition((float)x * m_tileSize, (float)y * m_tileSize);
+            //tile.setFillColor(sf::Color(255, 0, 255, 50));
+            //tile.setPosition((float)x * m_tileSize, (float)y * m_tileSize);
             //m_game.window().draw(tile);
 
-            //int cluster = m_BaseBorderFinder.getClusterLabels().get(x,y);
-            //m_text.setCharacterSize(12);
-            //m_text.setString(std::to_string(cluster));
-            //m_text.setPosition({(float)x*m_tileSize + 8, (float)y*m_tileSize + 8});
-            //m_game.window().draw(m_text);
+            int cluster = m_baseFinder.getClusterLabels().get(x,y);
+            m_text.setCharacterSize(12);
+            m_text.setString(std::to_string(cluster));
+            m_text.setPosition({(float)x*m_tileSize + 8, (float)y*m_tileSize + 8});
+            m_game.window().draw(m_text);
         }
+    }
+
+    for (const auto & base : m_baseFinder.getBases())
+    {
+        Tile tp = base.getDepotTile();
+
+        for (int i=0; i<4; i++)
+        {
+            for (int j=0; j<3; j++)
+            {
+                tile.setFillColor(sf::Color(255, 0, 0));
+                tile.setPosition((float)(i + tp.x) * m_tileSize, (float)(j + tp.y) * m_tileSize);
+                m_game.window().draw(tile);
+            }
+        }
+        
+
+        tp = { (int)base.getCenterOfResources().x, (int)base.getCenterOfResources().y };
+
+        tile.setFillColor(sf::Color(0, 0, 255));
+        tile.setPosition((float)tp.x * m_tileSize, (float)tp.y * m_tileSize);
+        m_game.window().draw(tile);
     }
 
     sf::RectangleShape borderRect;
     borderRect.setOutlineColor(sf::Color::White);
     borderRect.setOutlineThickness(8);
     borderRect.setFillColor(sf::Color(0, 0, 0, 0));
-    for (auto & border : m_BaseBorderFinder.getBaseBorders())
+    for (auto & border : m_baseFinder.getBaseBorders())
     {
         borderRect.setPosition((float)m_tileSize * border.left, (float)m_tileSize * border.top);
         borderRect.setSize({(float)(border.right - border.left + 1)*m_tileSize, (float)(border.bottom - border.top + 1)*m_tileSize});

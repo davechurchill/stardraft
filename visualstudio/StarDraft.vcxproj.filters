@@ -49,13 +49,13 @@
     <ClInclude Include="..\src\DistanceMap.hpp">
       <Filter>stardraft</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\BaseBorderFinder.hpp">
-      <Filter>stardraft</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\StarDraft.h">
       <Filter>stardraft</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Grid2D.hpp">
+      <Filter>stardraft</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\BaseFinder.hpp">
       <Filter>stardraft</Filter>
     </ClInclude>
   </ItemGroup>

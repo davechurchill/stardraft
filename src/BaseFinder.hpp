@@ -8,7 +8,7 @@
 
 // a base is just a rectangle encompassing some portion of the map
 // if translated back to BWAPI, just add all the resources in the rectabgle
-struct BaseBorder
+struct ResourceBorder
 {
     int left    = std::numeric_limits<int>::max();
     int right   = std::numeric_limits<int>::min();
@@ -21,26 +21,102 @@ struct BaseBorder
     }
 };
 
-struct Cluster
+struct ResourceCluster
 {
     std::vector<Tile> minerals;
     std::vector<Tile> gas;
     std::vector<Tile> allResources;
 };
 
-class BaseBorderFinder
+class Base
+{
+    const StarDraftMap * m_map = nullptr;
+
+    ResourceCluster m_cluster;
+    ResourceBorder  m_border;
+
+    DistanceMap     m_centerOfResourcesDistanceMap;
+       
+    bool            m_isStartLocation = false;
+    Vec2            m_centerOfResources;
+
+    Tile            m_depotTile;
+
+public:
+
+    Base(const StarDraftMap & map, const ResourceCluster & cluster, const ResourceBorder & border)
+        : m_map(&map)
+        , m_cluster (cluster)
+        , m_border  (border)
+    {
+        // Step 1. Compute the center of resources
+        for (auto & tile : m_cluster.allResources)
+        {
+            m_centerOfResources.x += tile.x;
+            m_centerOfResources.y += tile.y;
+        }
+
+        m_centerOfResources = m_centerOfResources / m_cluster.allResources.size();
+        Tile center = {(int)m_centerOfResources.x, (int)m_centerOfResources.y};
+
+        // if the center of resources lands on a resource, move it by one
+        if (!m_map->isWalkable(center.x, center.y))
+        {
+            Tile check[] = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
+
+            for (size_t i=0; i<8; i++)
+            {
+                Tile newTile = {check[i].x + center.x, check[i].y + center.y};
+                if (m_map->isWalkable(newTile.x, newTile.y))
+                {
+                    center = newTile;
+                    break;
+                }
+            }
+        }
+
+        m_centerOfResources.x = center.x;
+        m_centerOfResources.y = center.y;
+
+        // Step 2. Compute the distance map from the center of resources
+        m_centerOfResourcesDistanceMap.compute(*m_map, (size_t)m_centerOfResources.x, (size_t)m_centerOfResources.y);
+
+        // Step 3. Compute where the depot should go
+        for (auto tile : m_centerOfResourcesDistanceMap.getClosestTiles())
+        {
+            if (m_map->canBuildBuildingOfSize(tile.x, tile.y, 4, 3, true))
+            {
+                m_depotTile = tile;
+                break;
+            }
+        }
+    }
+
+    inline Vec2 getCenterOfResources() const
+    {
+        return m_centerOfResources;
+    }
+
+    inline Tile getDepotTile() const
+    {
+        return m_depotTile;
+    }
+};
+
+class BaseFinder
 {    
     struct Direction { char x = 0, y = 0; };
 
-    const StarDraftMap *    m_map = nullptr;
-    std::vector<BaseBorder> m_baseBorders;
-    Grid2D<int>             m_resourceDist;
-    Grid2D<int>             m_resourceClusterLabels;
-    int                     m_maxDepth = 5;
-    int                     m_ops = 0;
-    std::vector<Tile>       m_stack;
-    std::vector<Direction>  m_actions = { {0,1}, {0,-1}, {1,0}, {-1,0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1} };
-    std::vector<Cluster>    m_resourceClusters;
+    const StarDraftMap *            m_map = nullptr;
+    std::vector<ResourceBorder>     m_baseBorders;
+    Grid2D<int>                     m_resourceDist;
+    Grid2D<int>                     m_resourceClusterLabels;
+    int                             m_maxDepth = 5;
+    int                             m_ops = 0;
+    std::vector<Base>               m_bases;
+    std::vector<Tile>               m_stack;
+    std::vector<Direction>          m_actions = { {0,1}, {0,-1}, {1,0}, {-1,0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1} };
+    std::vector<ResourceCluster>    m_resourceClusters;
     
     void resourceDistanceBFS(int x, int y)
     {
@@ -86,13 +162,13 @@ class BaseBorderFinder
 
     // this will form a cluster of resource tiles by BFSing from x,y
     // x, y will be a resource tile of unassigned cluster
-    Cluster resourceClusterFormationBFS(int x, int y, int clusterNumber)
+    ResourceCluster resourceClusterFormationBFS(int x, int y, int clusterNumber)
     {
         m_stack.clear();
         m_stack.push_back({x, y});
 
         // the vector of resource tiles for this cluster
-        Cluster cluster;
+        ResourceCluster cluster;
 
         // iterate until the current pointer meets the end
         for (size_t i = 0; i < m_stack.size(); i++)
@@ -129,12 +205,12 @@ class BaseBorderFinder
 
 public:
 
-    BaseBorderFinder()
+    BaseFinder()
     {
         m_stack.reserve(1024);
     }
 
-    BaseBorderFinder(const StarDraftMap & map)
+    BaseFinder(const StarDraftMap & map)
         : m_map(&map)
     {
         m_stack.reserve(1024);
@@ -167,13 +243,13 @@ public:
             m_resourceClusters.push_back(resourceClusterFormationBFS(resourceTile.x, resourceTile.y, clusterNumber++));
         }
 
-        // Step 3. Form Base objects out of each cluster, if they are valid
+        // Step 3. Form resource borders out of each cluster, if they are valid
         for (auto & cluster : m_resourceClusters)
         {
             // if there aren't enough resources in the cluster, it won't be a base
             if (cluster.minerals.size() < 4) { continue; }
 
-            BaseBorder border;
+            ResourceBorder border;
 
             for (auto tile : cluster.allResources)
             {
@@ -184,7 +260,10 @@ public:
             }
 
             m_baseBorders.push_back(border);
-        }
+
+            // Step 4. Form a base out of the cluster and resource border
+            m_bases.push_back(Base(*m_map, cluster, border));
+        }        
     }
     
     const Grid2D<int> & getResourceDist() const
@@ -197,9 +276,13 @@ public:
         return m_resourceClusterLabels;
     }
 
-    const std::vector<BaseBorder> & getBaseBorders() const
+    const std::vector<ResourceBorder> & getBaseBorders() const
     {
         return m_baseBorders;
     }
 
+    const std::vector<Base> & getBases() const
+    {
+        return m_bases;
+    }
 };

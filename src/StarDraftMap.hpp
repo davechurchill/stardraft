@@ -144,6 +144,20 @@ public:
         return canBuildDepot(get(x,y));
     }
 
+    inline bool canBuildBuildingOfSize(int tx, int ty, int sx, int sy, bool isDepot) const
+    {
+        for (int x = 0; x < sx; x++)
+        {
+            for (int y = 0; y < sy; y++)
+            {
+                bool good = isValid(tx+x, ty+y) && (isDepot ? canBuildDepot(tx+x, ty+y) : canBuild(tx+x, ty+y));
+                if (!good) { return false; }
+            }
+        }
+
+        return true;
+    }
+
     inline const std::vector<Tile> & startTiles() const
     {
         return m_startTiles;
