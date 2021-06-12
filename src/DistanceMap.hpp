@@ -74,7 +74,7 @@ class DistanceMap
 
 public:
 
-    DistanceMap::DistanceMap()
+    DistanceMap()
     {
         m_stack.reserve(128*128);
     }
@@ -88,7 +88,7 @@ public:
         compute(map, gx, gy);
     }
 
-    void DistanceMap::compute(const StarDraftMap & map, size_t gx, size_t gy)
+    void compute(const StarDraftMap & map, size_t gx, size_t gy)
     {
         m_gx  = gx;
         m_gy  = gy;
@@ -114,7 +114,7 @@ public:
         return count;
     }
 
-    Tile DistanceMap::getDirection(size_t x, size_t y, size_t index) const
+    Tile getDirection(size_t x, size_t y, size_t index) const
     {
         unsigned char dirs = m_directions.get(x, y);
 
