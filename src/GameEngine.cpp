@@ -15,8 +15,6 @@ void GameEngine::init()
     m_window.setFramerateLimit(60);
 
     Assets::Instance().addFont("Consolas", "fonts/Consolas.ttf");
-
-    pushState(std::make_shared<Scene_Menu>(*this));
 }
 
 bool GameEngine::isRunning()
@@ -35,21 +33,21 @@ void GameEngine::run()
     {
         onFrame();
 
-        if (m_states.empty())
+        if (m_scenes.empty())
         {
             quit();
         }
     }
 }
 
-void GameEngine::pushState(std::shared_ptr<Scene> state)
+void GameEngine::pushScene(std::shared_ptr<Scene> Scene)
 {
-    m_statesToPush.push_back(state);
+    m_scenesToPush.push_back(Scene);
 }
 
-void GameEngine::popState()
+void GameEngine::popScene()
 {
-    m_popStates++;
+    m_popScenes++;
 }
 
 void GameEngine::onFrame()
@@ -57,28 +55,28 @@ void GameEngine::onFrame()
     if (!isRunning()) { return; }
     m_updates++;
     
-    // pop however many states off the state stack as we have requested
-    for (size_t i = 0; i < m_popStates; i++)
+    // pop however many Scenes off the Scene stack as we have requested
+    for (size_t i = 0; i < m_popScenes; i++)
     {
-        if (!m_states.empty())
+        if (!m_scenes.empty())
         {
-            m_states.pop_back();
+            m_scenes.pop_back();
         }
     }
-    // reset the state stack pop counter
-    m_popStates = 0;
+    // reset the Scene stack pop counter
+    m_popScenes = 0;
 
-    // push any requested states onto the stack
-    for (size_t i = 0; i < m_statesToPush.size(); i++)
+    // push any requested Scenes onto the stack
+    for (size_t i = 0; i < m_scenesToPush.size(); i++)
     {
-        m_states.push_back(m_statesToPush[i]);
+        m_scenes.push_back(m_scenesToPush[i]);
     }
-    m_statesToPush.clear();
+    m_scenesToPush.clear();
 
-    // call update on the top of the stack (current state)
-    if (!m_states.empty())
+    // call update on the top of the stack (current Scene)
+    if (!m_scenes.empty())
     {
-        m_states.back()->onFrame();
+        m_scenes.back()->onFrame();
     }
 }
 

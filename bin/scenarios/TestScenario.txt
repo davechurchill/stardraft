@@ -1,0 +1,4 @@
+maps/(2)Benzene.scx.txt
+10 add Nexus 20 10 4 3
+30 add Gateway 4 20 3 3
+50 path Marine 1 320 320 640 640

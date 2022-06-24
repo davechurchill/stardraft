@@ -22,6 +22,7 @@
     <ClInclude Include="..\src\Assets.h" />
     <ClInclude Include="..\src\BaseFinder.hpp" />
     <ClInclude Include="..\src\GameEngine.h" />
+    <ClInclude Include="..\src\Scenario.hpp" />
     <ClInclude Include="..\src\Scene.h" />
     <ClInclude Include="..\src\Scene_Map.h" />
     <ClInclude Include="..\src\Scene_Menu.h" />

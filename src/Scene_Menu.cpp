@@ -82,7 +82,9 @@ void Scene_Menu::sUserInput()
                 case sf::Keyboard::D: 
                 case sf::Keyboard::Enter:
                 { 
-                    m_game.pushState(std::make_shared<Scene_Map>(m_game, m_levelPaths[m_selectedMenuIndex]));
+                    auto mapScene = std::make_shared<Scene_Map>(m_game);
+                    mapScene->loadMap(m_levelPaths[m_selectedMenuIndex]);
+                    m_game.pushScene(mapScene);
                     break; 
                 }
                 default: break;

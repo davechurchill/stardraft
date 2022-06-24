@@ -5,6 +5,7 @@
 #include "StarDraftMap.hpp"
 #include "DistanceMap.hpp"
 #include "BaseFinder.hpp"
+#include "Scenario.hpp"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
@@ -29,10 +30,11 @@ class Scene_Map : public Scene
     sf::VertexArray     m_buildTileArray;
     sf::VertexArray     m_walkTileArray;
 
-    const std::string   m_mapFile;
     StarDraftMap        m_map;            
     DistanceMap         m_field;
     BaseFinder          m_baseFinder;
+    Scenario            m_scenario;
+    size_t              m_scenarioIndex = 0;
 
     Vec2                m_drag = { -1, -1 };
     Vec2                m_mouseScreen;
@@ -41,15 +43,15 @@ class Scene_Map : public Scene
     
     WorldView           m_view;
     
-    void init();  
-    
     void setMapVertexArray();
     void sUserInput();  
     void sRender();
     
 public:
 
-    Scene_Map(GameEngine& game, const std::string & mapFile);
+    Scene_Map(GameEngine& game);
 
     void onFrame();
+    void loadMap(const std::string& mapFile);
+    void loadScenario(const std::string& path);
 };

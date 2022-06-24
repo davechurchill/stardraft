@@ -25,8 +25,9 @@ struct Tile
 
 class StarDraftMap
 {
-    Grid2D<char>          m_buildTiles;
-    Grid2D<char>          m_walkTiles;
+    std::string         m_path;
+    Grid2D<char>        m_buildTiles;
+    Grid2D<char>        m_walkTiles;
     std::vector<Tile>   m_mineralTiles;
     std::vector<Tile>   m_gasTiles;
     std::vector<Tile>   m_resourceTiles;
@@ -180,6 +181,7 @@ public:
 
     inline void load(const std::string & path)
     {
+        m_path = path;
         std::ifstream fin(path);
         int w, h, n, sx, sy;
         char c;
@@ -250,5 +252,10 @@ public:
                 fout << (m_walkTiles.get(x,y) ? '1' : '0');
             }   fout << "\n";
         }
+    }
+
+    const std::string& getPath() const
+    {
+        return m_path;
     }
 };

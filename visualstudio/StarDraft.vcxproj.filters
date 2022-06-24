@@ -58,6 +58,9 @@
     <ClInclude Include="..\src\BaseFinder.hpp">
       <Filter>stardraft</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\Scenario.hpp">
+      <Filter>stardraft</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="stardraft">

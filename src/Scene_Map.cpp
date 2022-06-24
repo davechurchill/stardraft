@@ -9,9 +9,17 @@
 #include <algorithm>
 #include <string>
 
-Scene_Map::Scene_Map(GameEngine& game, const std::string & mapFile)
+Scene_Map::Scene_Map(GameEngine& game)
     : Scene(game)
-    , m_mapFile(mapFile)
+{
+    
+    m_font.loadFromFile("fonts/Consolas.ttf");
+    m_text.setFont(m_font);
+    m_text.setPosition(10, 5);
+    m_text.setCharacterSize(10);
+}
+
+void Scene_Map::loadMap(const std::string& mapFile)
 {
     m_map = StarDraftMap(mapFile);
 
@@ -19,21 +27,11 @@ Scene_Map::Scene_Map(GameEngine& game, const std::string & mapFile)
 
     m_view.setView(m_game.window().getView());
     m_view.zoomTo(6, { 0, 0 });
-    m_view.move({ -m_tileSize*3, -m_tileSize*3 });
-        
-    m_font.loadFromFile("fonts/Consolas.ttf");
-    m_text.setFont(m_font);
-    m_text.setPosition(10, 5);
-    m_text.setCharacterSize(10);
+    m_view.move({ -m_tileSize * 3, -m_tileSize * 3 });
 
     setMapVertexArray();
 
     m_baseFinder.computeBases(m_map);
-}
-
-void Scene_Map::init()
-{
-
 }
 
 void Scene_Map::onFrame()
@@ -42,6 +40,12 @@ void Scene_Map::onFrame()
     sUserInput();
     sRender(); 
     m_currentFrame++;
+}
+
+void Scene_Map::loadScenario(const std::string& path)
+{
+    m_scenario.load(path);
+    loadMap(m_scenario.getMapPath());
 }
 
 void Scene_Map::sUserInput()
@@ -62,7 +66,7 @@ void Scene_Map::sUserInput()
             {
                 case sf::Keyboard::Escape:
                 {
-                    m_game.popState();
+                    m_game.popScene();
                     break;
                 }
                 case sf::Keyboard::E: break;
@@ -75,6 +79,16 @@ void Scene_Map::sUserInput()
                 case sf::Keyboard::F: m_drawField = !m_drawField; break;
                 case sf::Keyboard::V: m_drawDistance = !m_drawDistance; break;
                 case sf::Keyboard::T: m_drawWalkTiles = !m_drawWalkTiles; break;
+                case sf::Keyboard::Left: 
+                {
+                    if (m_scenarioIndex > 0) { m_scenarioIndex--; }
+                    break;
+                }
+                case sf::Keyboard::Right:
+                {
+                    if (m_scenarioIndex < m_scenario.events().size()) { m_scenarioIndex++; }
+                    break;
+                }
                 default: break;
             }
         }
@@ -335,7 +349,7 @@ void Scene_Map::sRender()
     int textSize = 24;
     static sf::RectangleShape rect;
     rect.setFillColor(sf::Color(16, 16, 16, 220));
-    rect.setSize(sf::Vector2f(textSize * 20.0f, textSize * 8.0f));
+    rect.setSize(sf::Vector2f(textSize * 20.0f, textSize * 10.0f));
     rect.setOutlineColor(sf::Color::White);
     rect.setOutlineThickness(4);
     rect.setPosition((float)(m_game.window().getSize().x- rect.getSize().x - 32), 16);
@@ -382,11 +396,17 @@ void Scene_Map::sRender()
     m_game.window().setView(m_game.window().getDefaultView());
 
     std::stringstream ss;
-    ss << m_mapFile << "\n";
+    ss << m_map.getPath() << "\n";
     ss << "Size:   (" << m_map.width() << ", " << m_map.height() << ") Build Tiles\n";
     ss << "        (" << 4*m_map.width() << ", " << 4*m_map.height() << ") Walk Tiles\n";
     ss << "Memory: "  << (17*m_map.width()*m_map.height())/1000 << "kb\n";
-    ss << "Players: " << m_map.startTiles().size();
+    ss << "Players: " << m_map.startTiles().size() << "\n\n";
+
+    if (m_scenario.events().size() > 0)
+    {
+        ss << "Scenario: " << m_scenario.getPath() << "\n";
+        ss << "Index:    " << (m_scenarioIndex) << " / " << m_scenario.events().size();
+    }
     
     m_text.setFillColor(sf::Color::White);
     m_text.setString(ss.str());
