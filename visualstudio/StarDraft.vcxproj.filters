@@ -8,13 +8,13 @@
     <ClCompile Include="..\src\GameEngine.cpp">
       <Filter>ui</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\GameState.cpp">
+    <ClCompile Include="..\src\Scene.cpp">
       <Filter>ui</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\GameState_Map.cpp">
+    <ClCompile Include="..\src\Scene_Map.cpp">
       <Filter>ui</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\GameState_Menu.cpp">
+    <ClCompile Include="..\src\Scene_Menu.cpp">
       <Filter>ui</Filter>
     </ClCompile>
   </ItemGroup>
@@ -25,7 +25,7 @@
     <ClInclude Include="..\src\GameEngine.h">
       <Filter>ui</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\GameState.h">
+    <ClInclude Include="..\src\Scene.h">
       <Filter>ui</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Vec2.hpp">
@@ -37,10 +37,10 @@
     <ClInclude Include="..\src\Timer.hpp">
       <Filter>ui</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\GameState_Map.h">
+    <ClInclude Include="..\src\Scene_Map.h">
       <Filter>ui</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\GameState_Menu.h">
+    <ClInclude Include="..\src\Scene_Menu.h">
       <Filter>ui</Filter>
     </ClInclude>
     <ClInclude Include="..\src\StarDraftMap.hpp">

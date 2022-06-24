@@ -1,34 +1,34 @@
-#include "GameState.h"
+#include "Scene.h"
 #include "GameEngine.h"
 
-GameState::GameState(GameEngine & game)
+Scene::Scene(GameEngine & game)
     : m_game(game)
     , m_lineStrip(sf::LinesStrip)
 { 
     
 }
 
-void GameState::setPaused(bool paused)
+void Scene::setPaused(bool paused)
 {
     m_paused = paused;
 }
 
-const GameEngine& GameState::getEngine() const
+const GameEngine& Scene::getEngine() const
 {
 	return m_game;
 }
 
-void GameState::playSound(const std::string& soundName)
+void Scene::playSound(const std::string& soundName)
 {
     Assets::Instance().getSound(soundName).play();
 }
 
-size_t GameState::currentFrame() const
+size_t Scene::currentFrame() const
 {
     return m_currentFrame;
 }
 
-void GameState::drawLine(double x1, double y1, double x2, double y2, sf::Color color)
+void Scene::drawLine(double x1, double y1, double x2, double y2, sf::Color color)
 {
     sf::Vertex v1(sf::Vector2f((float)x1, (float)y1), color);
     sf::Vertex v2(sf::Vector2f((float)x2, (float)y2), color);
@@ -43,7 +43,7 @@ void GameState::drawLine(double x1, double y1, double x2, double y2, sf::Color c
     m_lineStrip.append(sf::Vertex(v2.position, sf::Color(0, 0, 0, 0)));
 }
 
-void GameState::drawLine(int x1, int y1, int x2, int y2, sf::Color color)
+void Scene::drawLine(int x1, int y1, int x2, int y2, sf::Color color)
 {
     drawLine((double)x1, (double)y1, (double)x2, (double)y2, color);
 }

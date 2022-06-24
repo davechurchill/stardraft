@@ -6,7 +6,7 @@
 
 class GameEngine;
 
-class GameState
+class Scene
 {
 
 protected: 
@@ -16,7 +16,7 @@ protected:
     size_t          m_currentFrame = 0;
     sf::VertexArray m_lineStrip;
 
-    GameState(GameEngine & game);
+    Scene(GameEngine & game);
 
 public:
 

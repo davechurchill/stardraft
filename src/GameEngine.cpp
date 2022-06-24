@@ -1,8 +1,8 @@
 #include "GameEngine.h"
 #include "Assets.h"
 
-#include "GameState_Menu.h"
-#include "GameState_Map.h"
+#include "Scene_Menu.h"
+#include "Scene_Map.h"
 
 GameEngine::GameEngine()
 {
@@ -16,7 +16,7 @@ void GameEngine::init()
 
     Assets::Instance().addFont("Consolas", "fonts/Consolas.ttf");
 
-    pushState(std::make_shared<GameState_Menu>(*this));
+    pushState(std::make_shared<Scene_Menu>(*this));
 }
 
 bool GameEngine::isRunning()
@@ -42,7 +42,7 @@ void GameEngine::run()
     }
 }
 
-void GameEngine::pushState(std::shared_ptr<GameState> state)
+void GameEngine::pushState(std::shared_ptr<Scene> state)
 {
     m_statesToPush.push_back(state);
 }

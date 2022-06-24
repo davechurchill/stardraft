@@ -13,18 +13,18 @@
   <ItemGroup>
     <ClCompile Include="..\src\Assets.cpp" />
     <ClCompile Include="..\src\GameEngine.cpp" />
-    <ClCompile Include="..\src\GameState.cpp" />
-    <ClCompile Include="..\src\GameState_Map.cpp" />
-    <ClCompile Include="..\src\GameState_Menu.cpp" />
+    <ClCompile Include="..\src\Scene.cpp" />
+    <ClCompile Include="..\src\Scene_Map.cpp" />
+    <ClCompile Include="..\src\Scene_Menu.cpp" />
     <ClCompile Include="..\src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Assets.h" />
     <ClInclude Include="..\src\BaseFinder.hpp" />
     <ClInclude Include="..\src\GameEngine.h" />
-    <ClInclude Include="..\src\GameState.h" />
-    <ClInclude Include="..\src\GameState_Map.h" />
-    <ClInclude Include="..\src\GameState_Menu.h" />
+    <ClInclude Include="..\src\Scene.h" />
+    <ClInclude Include="..\src\Scene_Map.h" />
+    <ClInclude Include="..\src\Scene_Menu.h" />
     <ClInclude Include="..\src\Grid2D.hpp" />
     <ClInclude Include="..\src\StarDraft.h" />
     <ClInclude Include="..\src\StarDraftMap.hpp" />

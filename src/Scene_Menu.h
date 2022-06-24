@@ -1,12 +1,12 @@
 #pragma once
 
-#include "GameState.h"
+#include "Scene.h"
 #include <map>
 #include <memory>
 #include <deque>
 
 
-class GameState_Menu : public GameState
+class Scene_Menu : public Scene
 {
 
 protected:
@@ -24,6 +24,6 @@ protected:
 
 public:
 
-    GameState_Menu(GameEngine & game);
+    Scene_Menu(GameEngine & game);
 
 };

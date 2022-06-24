@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameState.h"
+#include "Scene.h"
 #include "WorldView.hpp"
 #include "StarDraftMap.hpp"
 #include "DistanceMap.hpp"
@@ -11,7 +11,7 @@
 #include <chrono>
 #include <iostream>
 
-class GameState_Map : public GameState
+class Scene_Map : public Scene
 {   
     sf::Font m_font;             
     sf::Text m_text;
@@ -49,7 +49,7 @@ class GameState_Map : public GameState
     
 public:
 
-    GameState_Map(GameEngine& game, const std::string & mapFile);
+    Scene_Map(GameEngine& game, const std::string & mapFile);
 
     void onFrame();
 };

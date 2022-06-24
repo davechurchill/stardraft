@@ -1,4 +1,4 @@
-#include "GameState_Map.h"
+#include "Scene_Map.h"
 #include "GameEngine.h"
 #include "WorldView.hpp"
 #include "StarDraftMap.hpp"
@@ -9,8 +9,8 @@
 #include <algorithm>
 #include <string>
 
-GameState_Map::GameState_Map(GameEngine& game, const std::string & mapFile)
-    : GameState(game)
+Scene_Map::Scene_Map(GameEngine& game, const std::string & mapFile)
+    : Scene(game)
     , m_mapFile(mapFile)
 {
     m_map = StarDraftMap(mapFile);
@@ -31,12 +31,12 @@ GameState_Map::GameState_Map(GameEngine& game, const std::string & mapFile)
     m_baseFinder.computeBases(m_map);
 }
 
-void GameState_Map::init()
+void Scene_Map::init()
 {
 
 }
 
-void GameState_Map::onFrame()
+void Scene_Map::onFrame()
 {
     m_view.update();
     sUserInput();
@@ -44,7 +44,7 @@ void GameState_Map::onFrame()
     m_currentFrame++;
 }
 
-void GameState_Map::sUserInput()
+void Scene_Map::sUserInput()
 {
     sf::Event event;
     while (m_game.window().pollEvent(event))
@@ -167,7 +167,7 @@ void GameState_Map::sUserInput()
     }
 }
 
-void GameState_Map::setMapVertexArray()
+void Scene_Map::setMapVertexArray()
 {
     m_buildTileArray = sf::VertexArray(sf::Quads);
     m_walkTileArray = sf::VertexArray(sf::Quads);
@@ -243,7 +243,7 @@ void GameState_Map::setMapVertexArray()
 }
 
 // renders the scene
-void GameState_Map::sRender()
+void Scene_Map::sRender()
 {
     m_game.window().clear();
     m_lineStrip.clear();
@@ -295,7 +295,7 @@ void GameState_Map::sRender()
             m_text.setCharacterSize(12);
             m_text.setString(std::to_string(cluster));
             m_text.setPosition({(float)x*m_tileSize + 8, (float)y*m_tileSize + 8});
-            m_game.window().draw(m_text);
+            //m_game.window().draw(m_text);
         }
     }
 

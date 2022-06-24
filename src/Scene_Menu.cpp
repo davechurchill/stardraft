@@ -1,5 +1,5 @@
-#include "GameState_Menu.h"
-#include "GameState_Map.h"
+#include "Scene_Menu.h"
+#include "Scene_Map.h"
 #include "Assets.h"
 #include "GameEngine.h"
 #include <sstream>
@@ -8,13 +8,13 @@
 #include <string_view>
 
 
-GameState_Menu::GameState_Menu(GameEngine & game)
-    : GameState(game)
+Scene_Menu::Scene_Menu(GameEngine & game)
+    : Scene(game)
 {
     init("");
 }
 
-void GameState_Menu::init(const std::string & menuConfig)
+void Scene_Menu::init(const std::string & menuConfig)
 {
     m_title = "StarDraft: A StarCraft Map Visualizer";
 
@@ -41,13 +41,13 @@ void GameState_Menu::init(const std::string & menuConfig)
     m_menuText.setCharacterSize(16);
 }
 
-void GameState_Menu::onFrame()
+void Scene_Menu::onFrame()
 {
     sUserInput();
     sRender();
 }
 
-void GameState_Menu::sUserInput()
+void Scene_Menu::sUserInput()
 {
     sf::Event event;
     while (m_game.window().pollEvent(event))
@@ -82,7 +82,7 @@ void GameState_Menu::sUserInput()
                 case sf::Keyboard::D: 
                 case sf::Keyboard::Enter:
                 { 
-                    m_game.pushState(std::make_shared<GameState_Map>(m_game, m_levelPaths[m_selectedMenuIndex]));
+                    m_game.pushState(std::make_shared<Scene_Map>(m_game, m_levelPaths[m_selectedMenuIndex]));
                     break; 
                 }
                 default: break;
@@ -91,7 +91,7 @@ void GameState_Menu::sUserInput()
     }
 }
 
-void GameState_Menu::sRender()
+void Scene_Menu::sRender()
 {
     // clear the window to a blue
     m_game.window().setView(m_game.window().getDefaultView());

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameState.h"
+#include "Scene.h"
 #include "Assets.h"
 
 #include <vector>
@@ -12,8 +12,8 @@ class GameEngine
 
 protected:
 
-    std::vector<std::shared_ptr<GameState>> m_states;
-    std::vector<std::shared_ptr<GameState>> m_statesToPush;
+    std::vector<std::shared_ptr<Scene>> m_states;
+    std::vector<std::shared_ptr<Scene>> m_statesToPush;
     sf::RenderWindow                        m_window;
     size_t                                  m_popStates = 0;
     bool                                    m_running = true;
@@ -28,7 +28,7 @@ public:
 
     void init();
 
-    void pushState(std::shared_ptr<GameState> state);
+    void pushState(std::shared_ptr<Scene> state);
     void popState();
 
     void quit();
