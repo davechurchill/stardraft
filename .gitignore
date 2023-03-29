@@ -3,6 +3,7 @@
 visualstudio/.vs/
 visualstudio/Debug
 visualstudio/Release
+visualstudio/x64
 
 # binary output
 bin/*.exe
